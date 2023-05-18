@@ -44,6 +44,17 @@ class UsersRepository {
     await this.writeAll(updatedRecords);
   }
 
+  async update(id, attr) {
+    // get all the records
+    const records = await this.getAll();
+    // get the record to update
+    const record = records.find((record) => record.id === id);
+    // update the record
+    Object.assign(record, attr);
+    // write the updated records  to file
+    await this.writeAll(records);
+  }
+
   randomId() {
     return crypto.randomBytes(4).toString("hex");
   }
@@ -52,8 +63,7 @@ class UsersRepository {
 const test = async () => {
   // creates a users repository
   const repo = new UsersRepository("users.json");
-
-  await repo.delete("be6850e2");
+  await repo.update("30249095", { password: "password" });
 };
 
 test();
