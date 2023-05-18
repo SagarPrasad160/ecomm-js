@@ -38,6 +38,12 @@ class UsersRepository {
     return records.find((record) => record.id === id);
   }
 
+  async delete(id) {
+    const records = await this.getAll();
+    const updatedRecords = records.filter((record) => record.id !== id);
+    await this.writeAll(updatedRecords);
+  }
+
   randomId() {
     return crypto.randomBytes(4).toString("hex");
   }
@@ -47,9 +53,7 @@ const test = async () => {
   // creates a users repository
   const repo = new UsersRepository("users.json");
 
-  const user = await repo.getOne("c8d1b00");
-
-  console.log(user);
+  await repo.delete("be6850e2");
 };
 
 test();
