@@ -2,5 +2,15 @@
   {
     "email": "test@test.com",
     "password": "password"
+  },
+  {
+    "email": "test1@test.com",
+    "password": "1241",
+    "id": "836e47d9"
+  },
+  {
+    "email": "sagarprasad480@gmail.com",
+    "password": "1241",
+    "id": "b493fb11"
   }
 ]

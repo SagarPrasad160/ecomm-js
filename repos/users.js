@@ -19,6 +19,8 @@ class UsersRepository {
     const users = await this.getAll();
     users.push(attr);
     await this.writeAll(users);
+    // return the user
+    return attr;
   }
 
   async writeAll(users) {
@@ -75,4 +77,4 @@ class UsersRepository {
   }
 }
 
-module.exports  = new UsersRepository("users.json");
+module.exports = new UsersRepository("users.json");
