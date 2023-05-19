@@ -1,28 +1,53 @@
 const express = require("express");
 const usersRepo = require("../../repos/users");
+const { check, validationResult } = require("express-validator");
 const router = express.Router();
 
 const signupTemplate = require("../../views/admin/signup");
 const signinTemplate = require("../../views/admin/signin");
 
-router.post("/signup", async (req, res) => {
-  const { email, password, passwordConfirmation } = req.body;
+router.post(
+  "/signup",
+  [
+    check("email")
+      .trim()
+      .normalizeEmail()
+      .isEmail()
+      .withMessage("Must be a valid email")
+      .custom(async (email) => {
+        const userExists = await usersRepo.getOneBy({ email });
+        if (userExists) {
+          throw new Error("Email already in use");
+        }
+      }),
+    check("password")
+      .trim()
+      .isLength({ min: 4, max: 20 })
+      .withMessage("Password must be between 4 and 20 chars"),
+    check("passwordConfirmation")
+      .trim()
+      .isLength({ min: 4, max: 20 })
+      .withMessage("Password must be between 4 and 20 chars")
+      .custom((passwordConfirmation, { req }) => {
+        if (passwordConfirmation !== req.body.password) {
+          throw new Error("Passwords must match");
+        } else {
+          return true;
+        }
+      }),
+  ],
+  async (req, res) => {
+    const { email, password, passwordConfirmation } = req.body;
+    const errors = validationResult(req);
+    console.log(errors);
 
-  const userExists = await usersRepo.getOneBy({ email });
-  if (userExists) {
-    return res.send("Email already in use.");
+    const user = await usersRepo.create({ email, password });
+
+    req.session.userId = user.id;
+
+    res.send("Account created!");
   }
-
-  if (password !== passwordConfirmation) {
-    return res.send("Both passwords must match!");
-  }
-
-  const user = await usersRepo.create({ email, password });
-
-  req.session.userId = user.id;
-
-  res.send("Account created!");
-});
+);
 
 router.get("/signup", (req, res) => {
   res.send(signupTemplate({ req }));
