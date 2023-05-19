@@ -1,6 +1,6 @@
 const express = require("express");
 const usersRepo = require("../../repos/users");
-const { check, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 const router = express.Router();
 
 const signupTemplate = require("../../views/admin/signup");
@@ -10,6 +10,8 @@ const {
   requireEmail,
   requirePassword,
   requirePasswordConfirmation,
+  requireEmailExists,
+  requirePasswordsMatch,
 } = require("./validators");
 
 router.post(
@@ -37,42 +39,21 @@ router.get("/signup", (req, res) => {
 });
 
 router.get("/signin", (req, res) => {
-  res.send(signinTemplate());
+  res.send(signinTemplate({}));
 });
 
 router.post(
   "/signin",
-  [
-    check("email")
-      .trim()
-      .normalizeEmail()
-      .isEmail()
-      .withMessage("Invalid Email")
-      .custom(async (email) => {
-        const user = await usersRepo.getOneBy({ email });
-        if (!user) {
-          throw new Error("Email does not exists!");
-        }
-      }),
-    check("password")
-      .trim()
-      .custom(async (password, { req }) => {
-        const user = await usersRepo.getOneBy({ email: req.body.email });
-        if (!user) {
-          throw new Error("invalid password");
-        }
-        const validPassword = await usersRepo.comparePasswords(
-          user.password,
-          password
-        );
-        if (!validPassword) {
-          throw new Error("Invalid Password");
-        }
-      }),
-  ],
+  [requireEmailExists, requirePasswordsMatch],
   async (req, res) => {
     const errors = validationResult(req);
     console.log(errors);
+
+    // if there are errors
+    if (!errors.isEmpty()) {
+      return res.send(signinTemplate({ errors }));
+    }
+
     const { email } = req.body;
     const user = await usersRepo.getOneBy({ email });
 
