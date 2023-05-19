@@ -40,26 +40,47 @@ router.get("/signin", (req, res) => {
   res.send(signinTemplate());
 });
 
-router.post("/signin", async (req, res) => {
-  const { email, password } = req.body;
-  const user = await usersRepo.getOneBy({ email });
+router.post(
+  "/signin",
+  [
+    check("email")
+      .trim()
+      .normalizeEmail()
+      .isEmail()
+      .withMessage("Invalid Email")
+      .custom(async (email) => {
+        const user = await usersRepo.getOneBy({ email });
+        if (!user) {
+          throw new Error("Email does not exists!");
+        }
+      }),
+    check("password")
+      .trim()
+      .custom(async (password, { req }) => {
+        const user = await usersRepo.getOneBy({ email: req.body.email });
+        if (!user) {
+          throw new Error("invalid password");
+        }
+        const validPassword = await usersRepo.comparePasswords(
+          user.password,
+          password
+        );
+        if (!validPassword) {
+          throw new Error("Invalid Password");
+        }
+      }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    const { email } = req.body;
+    const user = await usersRepo.getOneBy({ email });
 
-  if (!user) {
-    res.send("Invalid Email!");
+    req.session.userId = user.id;
+
+    res.send("Signed In");
   }
-  const checkPassword = await usersRepo.comparePasswords(
-    user.password,
-    password
-  );
-
-  if (!checkPassword) {
-    return res.send("Invalid Password!");
-  }
-
-  req.session.userId = user.id;
-
-  res.send("Signed In");
-});
+);
 
 router.get("/signout", (req, res) => {
   req.session = null;
