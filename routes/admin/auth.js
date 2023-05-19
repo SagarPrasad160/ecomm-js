@@ -6,41 +6,24 @@ const router = express.Router();
 const signupTemplate = require("../../views/admin/signup");
 const signinTemplate = require("../../views/admin/signin");
 
+const {
+  requireEmail,
+  requirePassword,
+  requirePasswordConfirmation,
+} = require("./validators");
+
 router.post(
   "/signup",
-  [
-    check("email")
-      .trim()
-      .normalizeEmail()
-      .isEmail()
-      .withMessage("Must be a valid email")
-      .custom(async (email) => {
-        const userExists = await usersRepo.getOneBy({ email });
-        if (userExists) {
-          throw new Error("Email already in use");
-        }
-      }),
-    check("password")
-      .trim()
-      .isLength({ min: 4, max: 20 })
-      .withMessage("Password must be between 4 and 20 chars"),
-    check("passwordConfirmation")
-      .trim()
-      .isLength({ min: 4, max: 20 })
-      .withMessage("Password must be between 4 and 20 chars")
-      .custom((passwordConfirmation, { req }) => {
-        if (passwordConfirmation !== req.body.password) {
-          throw new Error("Passwords must match");
-        } else {
-          return true;
-        }
-      }),
-  ],
+  [requireEmail, requirePassword, requirePasswordConfirmation],
   async (req, res) => {
-    const { email, password, passwordConfirmation } = req.body;
+    // recieve the errors array
     const errors = validationResult(req);
     console.log(errors);
-
+    // check for errors
+    if (!errors.isEmpty()) {
+      return res.send(signupTemplate({ req, errors }));
+    }
+    const { email, password, passwordConfirmation } = req.body;
     const user = await usersRepo.create({ email, password });
 
     req.session.userId = user.id;
