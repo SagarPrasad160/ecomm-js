@@ -1,10 +1,10 @@
 const express = require("express");
-const usersRepo = require("../../repos/users");
+const usersRepo = require("../../../repos/users");
 const { validationResult } = require("express-validator");
 const router = express.Router();
 
-const signupTemplate = require("../../views/admin/signup");
-const signinTemplate = require("../../views/admin/signin");
+const signupTemplate = require("../../../views/admin/signup");
+const signinTemplate = require("../../../views/admin/signin");
 
 const {
   requireEmail,

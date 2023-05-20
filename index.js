@@ -2,7 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const app = express();
-const authRouter = require("./routes/admin/auth");
+const authRouter = require("./routes/admin/auth/auth");
+const productsRouter = require("./routes/admin/products/products");
 
 app.use(express.static("public"));
 // using bodyParser middleware
@@ -14,6 +15,7 @@ app.use(
 );
 
 app.use(authRouter);
+app.use(productsRouter);
 
 app.listen(3000, () => {
   console.log("Listening at port 3000!");
