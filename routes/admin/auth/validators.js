@@ -55,4 +55,6 @@ module.exports = {
       }
       return true;
     }),
+  requirePrice: check("price").trim().toFloat().isFloat({ min: 1 }),
+  requireTitle: check("title").trim().isLength({ min: 5, max: 20 }),
 };
