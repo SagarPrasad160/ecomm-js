@@ -6,20 +6,19 @@ const authRouter = require("./routes/admin/auth/auth");
 const adminProductsRouter = require("./routes/admin/products/products");
 const productsRouter = require("./routes/products");
 const cartRouter = require("./routes/cart");
+
 app.use(express.static("public"));
-// using bodyParser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cookieSession({
+    name: "session",
     keys: ["afdasfasf"],
   })
 );
 
-app.use(authRouter);
-app.use(productsRouter);
-app.use(adminProductsRouter);
-app.use(cartRouter);
+app.use("/admin/auth", authRouter);
+app.use("/admin/products", adminProductsRouter);
+app.use("/products", productsRouter);
+app.use("/cart", cartRouter);
 
-app.listen(3000, () => {
-  console.log("Listening at port 3000!");
-});
+module.exports = app;
