@@ -28,6 +28,10 @@ module.exports = ({ items }) => {
     })
     .join("");
 
+  const cartTotal = items.reduce((acc, curr) => {
+    return acc + curr.quantity * curr.product.price;
+  }, 0);
+
   return layout({
     content: `
         <div id="cart" class="container">
@@ -42,7 +46,7 @@ module.exports = ({ items }) => {
                 <div class="message-header">
                   Total
                 </div>
-                <h1 class="title">$</h1>
+                <h1 class="title">$ ${cartTotal}</h1>
                 <button class="button is-primary">Buy</button>
               </div>
             </div>
