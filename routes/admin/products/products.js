@@ -25,10 +25,7 @@ router.post(
   requireAuth,
   upload.single("image"),
   [requireTitle, requirePrice],
-  handleErrors(newProductForm, async (req) => {
-    const product = await productsRepo.getOne(req.params.id);
-    return { product };
-  }),
+  handleErrors(newProductForm),
   async (req, res) => {
     const { title, price } = req.body;
     const image = req.file.buffer.toString("base64");
@@ -43,5 +40,28 @@ router.get("/admin/products/:id/edit", requireAuth, async (req, res) => {
   const product = await productsRepo.getOne(req.params.id);
   res.send(productEditTemplate({ product }));
 });
+
+router.post(
+  "/admin/products/:id/edit",
+  requireAuth,
+  upload.single("image"),
+  [requireTitle, requirePrice],
+  handleErrors(productEditTemplate, async (req) => {
+    const product = await productsRepo.getOne(req.params.id);
+    return { product };
+  }),
+  async (req, res) => {
+    const changes = req.body;
+    if (req.file) {
+      changes.image = req.file.buffer.toString("base64");
+    }
+    try {
+      await productsRepo.update(req.params.id, changes);
+      res.redirect("/admin/products");
+    } catch {
+      res.send("Product does not exists!");
+    }
+  }
+);
 
 module.exports = router;
