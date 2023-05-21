@@ -34,14 +34,14 @@ router.post("/cart/products", async (req, res) => {
   // update the item in cart repository
   await cartRepo.update(cart.id, { items: cart.items });
 
-  res.send("Added to Cart!");
+  res.redirect("/cart");
 });
 
 router.get("/cart", async (req, res) => {
   // check if a cart exists for the user making request
   if (!req.session.cartId) {
     // redirect back to products route
-    res.redirect("/");
+    return res.redirect("/");
   }
   // if cart exist get the cart from cartRepo
   const cart = await cartRepo.getOne(req.session.cartId);
@@ -52,6 +52,12 @@ router.get("/cart", async (req, res) => {
     item.product = product;
   }
   res.send(cartShowTemplate({ items: cart.items }));
+});
+
+router.post("/cart/:id", async (req, res) => {
+  console.log(req.params.id);
+  await cartRepo.deleteItem(req.session.cartId, req.params.id);
+  res.redirect("/cart");
 });
 
 module.exports = router;
