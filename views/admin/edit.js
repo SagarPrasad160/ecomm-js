@@ -1,0 +1,12 @@
+const layout = require("./layout");
+
+module.exports = ({ product }) => {
+  return layout({
+    content: `<form>
+                <input name="title" value="${product.title}" />
+                <input name="price" value="${product.price}" />
+                <input type="file" name="image" />
+                <button>Submit</button>
+                </form>`,
+  });
+};

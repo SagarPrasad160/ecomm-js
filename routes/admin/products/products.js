@@ -6,6 +6,7 @@ const { requireTitle, requirePrice } = require("../auth/validators");
 const newProductForm = require("../../../views/admin/new");
 const { handleErrors, requireAuth } = require("../middlewares");
 const productListTemplate = require("../../../views/admin/index");
+const productEditTemplate = require("../../../views/admin/edit");
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -24,7 +25,10 @@ router.post(
   requireAuth,
   upload.single("image"),
   [requireTitle, requirePrice],
-  handleErrors(newProductForm),
+  handleErrors(newProductForm, async (req) => {
+    const product = await productsRepo.getOne(req.params.id);
+    return { product };
+  }),
   async (req, res) => {
     const { title, price } = req.body;
     const image = req.file.buffer.toString("base64");
@@ -34,5 +38,10 @@ router.post(
     res.redirect("/admin/products");
   }
 );
+
+router.get("/admin/products/:id/edit", requireAuth, async (req, res) => {
+  const product = await productsRepo.getOne(req.params.id);
+  res.send(productEditTemplate({ product }));
+});
 
 module.exports = router;
