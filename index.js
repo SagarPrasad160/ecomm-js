@@ -20,6 +20,5 @@ app.use(productsRouter);
 app.use(adminProductsRouter);
 app.use(cartRouter);
 
-app.listen(3000, () => {
-  console.log("Listening at port 3000!");
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT);
