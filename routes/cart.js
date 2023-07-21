@@ -14,7 +14,7 @@ router.post("/cart/products", async (req, res) => {
   if (!req.session.cartId) {
     // create a new cart with empty items array
     cart = await cartRepo.create({ items: [] });
-    console.log(cart);
+    console.log("cart", cart);
     // add the id of newly created cart to the session of req object
     req.session.cartId = cart.id;
   } else {
@@ -23,6 +23,7 @@ router.post("/cart/products", async (req, res) => {
   }
   // check to see if the item already exists in cart items array
   const itemExists = cart.items.find((item) => item.id === req.body.productId);
+  console.log(itemExists);
 
   if (itemExists) {
     // increase the quantity of product
@@ -55,7 +56,6 @@ router.get("/cart", async (req, res) => {
 });
 
 router.post("/cart/:id", async (req, res) => {
-  console.log(req.params.id);
   await cartRepo.deleteItem(req.session.cartId, req.params.id);
   res.redirect("/cart");
 });
