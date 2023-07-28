@@ -34,6 +34,9 @@ router.get("/signup", (req, res) => {
 });
 
 router.get("/signin", (req, res) => {
+  if (req.session.userId) {
+    return res.redirect("/admin/products");
+  }
   res.send(signinTemplate({}));
 });
 
