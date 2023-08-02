@@ -1,29 +1,37 @@
 # Ecommerce Web Application
 
-![Ecommerce Web Application](https://private-user-images.githubusercontent.com/118924589/255319132-62304ba9-0a2a-4782-97bc-f1cffeb123df.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE2OTAxMTI4MDEsIm5iZiI6MTY5MDExMjUwMSwicGF0aCI6Ii8xMTg5MjQ1ODkvMjU1MzE5MTMyLTYyMzA0YmE5LTBhMmEtNDc4Mi05N2JjLWYxY2ZmZWIxMjNkZi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBSVdOSllBWDRDU1ZFSDUzQSUyRjIwMjMwNzIzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDIzMDcyM1QxMTQxNDFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1jZjRmNTEzNzg5YmRkOTI0ZjE5Nzk5NDljYjZmZjc3NzBjN2FjMGFiMjhhZjI1ZWI3MzQ5YmYyNTQ4YmM4YWU2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.VY5Zfren-3kzXd_aoqTdl2UmjMTNfcfaUUlLeY1bZJ8)
+![Ecommerce Web Application](https://res.cloudinary.com/dzzazpzrs/image/upload/v1690968633/Screenshot_69_cjefh2.png)
 
 ## Description
 
-The Ecommerce Web Application is JavaScript-based ecommerce app with a repository-based file storage approach for data storage.
+The Ecommerce Web Application is a JavaScript-based ecommerce app that has been refactored to version 2. This version introduces enhancements such as utilizing MongoDB Atlas for cloud-based database storage and integrating Cloudinary for efficient image upload and persistence.
 
 ### Features
 
-- **User Authentication**: Production-grade authentication is implemented using cookies for secure user sessions for admins.
+- **User Authentication**: Secure user authentication is achieved using cookies, ensuring that user sessions remain confidential and authenticated.
 
-- **Shopping Cart**: Add products to the cart, view cart items, update quantity and delete them.
+- **Shopping Cart**: Users can effortlessly add products to their shopping cart, view cart items, and adjust quantities as needed.
 
-- **Admin Functionality**: Admin users can manage add,edit and delete products.
+- **Admin Functionality**: Admin users are empowered with the ability to efficiently manage products by adding, editing, and deleting them.
+- 
+- **Validators**: Custom validation using `validator.js` ensures that inputs, particularly email and password, meet the required criteria.
 
-- **Image Upload with Multer**: Admin users can upload product images using Multer for efficient image handling.
+### View Updated Version
+
+You can explore the enhanced version of this project on the following GitHub repository: [Ecommerce Web Application (V2)](https://github.com/SagarPrasad160/ecomm-V2)
 
 ## Technologies Used
 
-- Node.js/Express.js: Building the backend server for handling requests and responding with appropriate templates.
+- **Node.js/Express.js**: The backend server is built using Node.js and Express.js, facilitating smooth handling of requests and rendering appropriate templates.
 
-- Repository-Based File Storage: Storing and managing product data using a custom file-based repository.
+- **Cookies**: User authentication is implemented using cookies, allowing for secure and seamless user sessions.
 
-- Cookies: Implementing secure user authentication and sessions.
+- **Multer**: Image uploads are managed using Multer, facilitating efficient image handling and storage.
 
-- Multer: Handling image uploads for product management.
+- **Custom Validators**: Custom validation ensures that user inputs adhere to specified criteria, enhancing data integrity.
 
-- `validator.js`: Custom validation for email and password inputs.
+## How to Use
+
+1. Clone the repository.
+2. Run the development server using `npm run dev`.
+
