@@ -13,7 +13,7 @@ The Ecommerce Web Application is a JavaScript-based ecommerce app that has been 
 - **Shopping Cart**: Users can effortlessly add products to their shopping cart, view cart items, and adjust quantities as needed.
 
 - **Admin Functionality**: Admin users are empowered with the ability to efficiently manage products by adding, editing, and deleting them.
-- 
+- **Bulma**: The frontend is enhanced using Bulma, ensuring consistent and responsive styling across various screen sizes
 - **Validators**: Custom validation using `validator.js` ensures that inputs, particularly email and password, meet the required criteria.
 
 ### View Updated Version
