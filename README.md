@@ -26,9 +26,9 @@ You can explore the enhanced version of this project on the following GitHub rep
 - **Cookies**: User authentication is implemented using cookies, allowing for secure and seamless user sessions.
 
 - **Multer**: Image uploads are managed using Multer, facilitating efficient image handling and storage.
-- 
+  
 - **Bulma**: The frontend is enhanced using Bulma, ensuring consistent and responsive styling across various screen sizes
-- 
+  
 - **Custom Validators**: Custom validation ensures that user inputs adhere to specified criteria, enhancing data integrity.
 
 ## How to Use
